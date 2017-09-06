@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>函数的扩展</title>
+</head>
+<body>
+	<p></p>
+</body>
+</html>
+<script type="text/javascript">
+	"use strict";
+	//在ES6之前，不能直接为函数的参数指定默认值，只能采用变通的方法。
+	/*function log(x,y){
+		if(typeof y === "undefined")
+			y='world';
+		console.log(x,y);
+	}
+	log('Hello');
+	log('Hello','');*/
+
+	//ES6允许为函数的参数设置默认值，即直接写在参数定义的后面
+	function log(x,y="world"){
+		console.log(x,y);
+	}
+	log('hello');
+	log('hello','');
+
+
+	//箭头函数
+	var f = v=>v;
+	//等同于 var f = function(v){return v;}
+
+	/*如果箭头函数不需要使用参数或需要多个参数，就使用一个圆括号来代表参数部分*/
+	var sum = (num1,num2)=>{return num1 + num2};
+
+	//箭头函数可以与变量解构结合使用
+	const full = ({first,last})=>first + ' ' + last;
+
+	function ding(){
+		setTimeout(()=>{ //箭头函数的定义生效是在foo函数生成时，真正的执行要到100ms以后，箭头函数导致this总是指向函数定义生效所在的对象。
+			console.log('id:',this.id);
+		},100);
+	}
+	var id=21;
+	ding.call({id:42});
+	//箭头函数可以将setTimeout里面的this绑定定义所在的作用域，而不是指向运行时所在的作用域。
+	//箭头函数里面根本没有自己的this，而是引用外层的this。
+	function Timer(){
+		this.s1=0,this.s2=0;
+		//箭头函数
+		setInterval(()=>this.s1++,1000);
+
+		//普通函数
+		setInterval(function(){//后者的this指向运行时所在的作用域（即全局对象）
+			this.s2++;
+		},1000);
+	}
+	var timer = new Timer();
+	setTimeout(()=>console.log('s1:',timer.s1),3100);
+	setTimeout(()=>console.log('s2:',timer.s2),3100);
+
+	/*尾调用优化 ，某个函数的最后一步是调用另外一个函数。尾调用不一定出现在函数尾部，只要是最后一步操作即可。
+	尾调用是函数的最后一部操作，不需要保留外层函数的调用帧，只要直接用内层函数的调用帧，取代外层函数的调用帧就可以了.
+	*/
+/*	function g(val){
+		alert(val)
+	};
+	function f() {
+	  let m = 1;
+	  let n = 2;
+	  return g(m + n);
+	}
+	console.log(f());
+*/
+
+function factorial(n){
+	if(n===1) return n;
+	return n* factorial(n-1);
+}
+console.log(factorial(5));//是一个阶乘函数，最多需要保存n个调用记录，复杂度为O（n）;
+
+//改写成尾递归，只保留一个调用记录，复杂度为O(1)
+function factoriala(n,total){
+	if(n===1) return total;
+	return factoriala(n-1,n*total); //此时的复杂度为O（1），因为只保留了total一个值
+}
+console.log(factoriala(5,1));
+
+
+/*----------------------------------------*/
+
+//递归函数的改写，只保留一个参数的写法
+function tailFactorial(n, total) {
+  if (n === 1) return total;
+  return tailFactorial(n - 1, n * total);
+}
+
+function factorials(n) {
+  return tailFactorial(n, 1);
+}
+console.log(factorials(6));
+
+/*----------------*/
+</script>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Module</title>
+</head>
+<body>
+	
+</body>
+</html>
+<script type="text/javascript">
+	"use strict";
+
+	//CommonJS 主要用于服务器require加载时运行 ，AMD规范，主要用于浏览器 import {stat,exists,readFile} from 'fs';
+
+	/*export命令 profile.js
+	var firstName = 'Machael';
+	var lastName = "JackSon";
+	var year = 1858;
+	export {firstName,lastName,year}; 导出模块
+	*/
+
+	/*import命令
+	import{firstName,lastName,year} from './profile',
+	由于import是静态执行，故不能使用表达式和变量。
+	*/
+	//目前，通过Babel转码，require和import命令可以写在同一个模块里面，但import是一个模块之中最早执行的。
+
+	//模块的整体加载
+	//circle.js
+	
+	//main.js
+
+	//跨模块常量 建一个专门的constants目录，将各种常量写在不同的文件里面，保存在该目录下面
+	//constants/db.js
+	/*
+	export const db ={
+	url:'http://www.github.com/xiaogao6681.git',
+	admin_username:'',
+	admin_password:''
+	};
+	*/
+
+	//constants/user.js
+	//export const users = ['root','admin','staff','ceo'];
+
+	//输出，合并在index.js里面
+	/*export{ db} from './db';
+	export{users} from './users'
+	*/
+	//使用的时候，直接加载index.js就可以了。
+	//import{ db,users} from './index'
+
+</script>
+<script type="text/javascript" src="main.js">
+</script>

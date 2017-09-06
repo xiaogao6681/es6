@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>class&&inherits</title>
+</head>
+<body>
+
+</body>
+</html>
+<script type="text/javascript">
+	"use strict";
+	class Point{
+		constructor(x,y){
+			this.x=x;
+			this.y=y
+		};
+
+	}
+	class ColorPoint extends Point{
+		//通过关键字extends 下面的继承了Point类的所有属性和方法，如果子类没有定义constructor的方法，这个方法会默认被添加，
+		constructor(x,y,color){
+			super(x,y);//调用父类的constructor(x,y) 构造函数必须要先执行这一步.super虽然代表了父类的构造函数，但返回的是子类的实例
+			//等同与A.prototype.constructor.call(B);在B中调用A的方法
+			this.color = color;
+		}
+
+		toString(){
+			return this.color + ' ' + super.toString();//调用父类的toString()
+		}
+
+	}
+	// console.log(Object.getPrototypeOf(ColorPoint) === Point); //Object方法可以用来从子类上获取父类。
+
+	class A{
+		constructor(){
+			console.log(new.target.name);
+			this.p = 2;
+		}
+	}
+	A.prototype.x = "ok"; //属性x是定义在A.prototype上面的，所以super.x可以取到它的值。
+	class B extends A{
+		constructor(){
+			super();
+			console.log(super.x);
+		}
+		 m(){
+			return super.p;
+		}
+	}
+	new A();//A
+	new B();//b  在super()执行时，它指向的是子类B的构造函数。而不是父类A的构造函数。super内部的this指向的是B。
+	let b = new B();
+	console.log(b.m())
+
+	//Object.getPrototypeOf()从子类上获取父类
+	console.log(Object.getPrototypeOf(B) ===A);//判断是否从A类上面继承了B类
+</script>

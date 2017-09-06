@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>set&&map</title>
+</head>
+<body>
+	
+</body>
+</html>
+<script type="text/javascript">
+	"use strict";
+	//set本身是一个构造函数，用来生成Set数据结构。set类似于数组，但是成员的值都是唯一的，没有重复的值。
+	const s = new Set();
+	[2,3,4,5,4,2].forEach(x=>s.add(x)); 
+	for(let i of s){
+		console.log(i);
+	}
+	//Set函数可以接受一个数组(或者具有iterable接口的其他数据结构)作为参数，用来初始化
+
+	/*const set = new Set([1,2,3,4,4,2]);
+	console.log(typeof [...set]);*/
+	//去除数组重复成员 ,向Set加入值的时候，不会发生类型转换，5和‘5’是两个不同类型的值
+	//[...new Set(array)]
+
+	//Set实例的属性和方法
+	//Set.prototype.constructor  //构造函数，默认就是Set函数。
+	//Set.prototype.size     //返回Set实例的成员总数
+
+	//Set实例的属性和方法 操作方法
+	/*add(value): 添加某个值，返回Set结构本身。
+	delete(value): 删除某个值，返回一个布尔值，表示删除是否成功。
+	has(value):返回一个布尔值，表示该值是否为Set的成员。
+	clear():清除所有成员，没有返回值。
+	*/
+	const items = new Set([1, 2, 3, 4, 5]);
+	const array = Array.from(items);
+	console.log(typeof array);
+
+	let set = new Set([1,2,3]);
+	set = new Set([...set].map(x=>x*2));
+	set = Array.from(set);
+	console.log(set);
+
+
+	//实现交集，并集和差集
+	let a = new Set([1,2,3]);
+	let b = new Set([4,3,2]);
+
+	//并集
+	let union = new Set([...a,...b]);
+	console.log(union);
+
+	//交集
+	let intersect = new Set([...a].filter(x=>b.has(x)));
+	console.log(intersect);
+
+	//差集
+	let difference = new Set([...a].filter (x=>!b.has(x)));
+	console.log(difference);
+
+
+	/*WeakSet 结构与Set类似。不同之处：1 WeakSet的成员只能是对象，而不能是其他类型的值。 2 如果其他对象都不再引用该对象，垃圾回收机制会自动回收该对象所占用的内存
+	*/
+	const wa = [[1,2],[2,3],[4,5]];
+	const ws = new WeakSet(wa);
+	console.log(ws); //数组wa的成员为WeakSet的成员，而不是a数组本身，这样就意味着，数组的成员只能是对象。
+
+	/*const wb = [3,4];
+	const ws1 = new WeakSet(wb);
+	console.log(ws1); //Invalid value used in weak set报错 此时b的成员不是对象，加入WeakSet就会报错。*/
+
+	//WeakSet结构有以下三个方法  WeakSet.add() 添加一个新成员  WeakSet.delete()清除WeakSet实例的制定成员 WeakSet.has()
+
+	const ws2 = new WeakSet();
+	const obj1 = {};
+	const foo = {};
+
+	ws2.add(window);
+	ws2.add(obj1);
+	console.log (ws2.has(window)) ;//window是全局对象。
+
+	//Map函数 js的ibj，本质上面是键对值的集合，但传统只能用字符串当作键。  Map结构提供了“值-值”的对应
+
+	/*const m = new Map();
+	const o = {p:'Hello world'};
+	m.set(o,'content'); //将对象o当作m的一个键，然后又使用get方法读取这个键。
+	console.log(m.get(o));*/
+
+	//作为构造函数，Map也可以接收一个数组作为参数，该数组的成员是一个个表示键值对的数组。
+	/*const map = new Map([
+		['name','张三'],
+		['title','Author']
+	]);
+
+	console.log(map.size);
+	console.log(map.has('name'));*/
+
+
+
+
+	//不仅仅是数组，任何具有Iterator接口，且每个成员都是双元素数组的数据解构都可以当作Map构造函数的参数。
+	/*const map = new Map();
+	map.set(1,'aaa').set(1,'bbb'); //对一个键进行多次赋值，后面的值将覆盖前面的值。
+	console.log(map.get(1));*/
+
+	//同样的值的两个实例，在Map结构中被视为两个键
+	/*const map = new Map();
+	const k1 = ['a'];
+	const k2 = ['a'];
+
+	map.set(k1,111).set(k2,222);
+	console.log(map.get(k1),map.get(k2));*/
+
+	/*Map.forEach(function(value,key,map){
+		console.log("key: %s,value:%s",key,value);
+	})*/
+
+
+	//forEach方法还可以接受第二个参数，用来绑定this。
+
+/*	const map = new Map([[1,"one"],[2,"two"]]);
+	const reporter = {
+		report:function(key,value){
+			console.log("Key:%s,value:%s",key,value);
+		}
+	};
+	map.forEach(function(value,key,map){
+		this.report(key,value);
+	},reporter); //此时this指向reporter*/
+
+	//数组和Map的相互转换
+	var atm=new Map([
+		[true,7],
+	[{foo:3},['abc']]
+	])
+	console.log(atm);  //数组转换为map
+	console.log([...atm]); //map转换为数组
+
+	//Map转换为对象 如果所有的Map的键都是字符串，可以转为对象
+
+	function strMapToObj(strMap){
+		let obj = Object.create(null);
+		for (let [k,v] of strMap) {
+		    obj[k] = v;
+		}
+		return obj;
+	}
+
+	const myMap = new Map().set('yes',true).set('no',false);
+
+	console.log(strMapToObj(myMap));
+
+	//对象转换为Map
+	function objToStrMap(obj){
+		let strMap = new Map();
+		for(let k of Object.keys(obj)){
+			strMap.set(k,obj[k]);
+		}
+		return strMap;
+	}
+	console.log(objToStrMap({yes:true,no:false}));
+
+
+	//WeakMap 用于生成键值对的集合  WeakMap只接收对象作为键名，不接受其他类型的值作为键名。
+
+	const wm1 = new WeakMap();
+	const key = {foo:1};
+	wm1.set(key,2);
+	console.log(wm1.get(key));
+
+	//weakMap接受一个数组，作为构造函数的参数
+	const k1 = [1,2,3];
+	const k2 = [4,5,6];
+	const wm2 = new WeakMap([[k1,'foo'],[k2,'bar']])
+	console.log(wm2);
+</script>

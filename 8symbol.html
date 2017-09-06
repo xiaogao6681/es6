@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>symbol</title>
+</head>
+<body>
+	
+</body>
+</html>
+<script type="text/javascript">
+	"use strict";
+	//Symbol是一种机制，保证每个属性的名字都是独一无二的。可以保证不会与其他属性
+	//产生冲突 凡是属性名属于Symbol类型，就都是独一无二的，可以不产生冲突。
+
+	let s = Symbol();
+	console.log(typeof s);
+
+	var s1 = Symbol('foo'),s2 = Symbol('bar');
+	console.log(s1,s2); //接受一个字符串作为参数，表示对实例的描述。在控制台显示。
+
+	const obj = {
+		toString(){
+			return 'abc';
+		}
+	};
+	const sym = Symbol(obj);
+	console.log(sym);
+
+	var sym1 = Symbol('My symbol');
+	//String(sym1);
+	console.log(sym1.toString());
+
+
+	//作为属性名的Symbol  用于对象的属性名，保证不会出现同名的属性
+	//在对象的内部，使用Symbol值定义属性时，Symbol必须防止在方括号之中。
+	var mySymbol = Symbol();
+	var a = {};
+	a[mySymbol] = 'Hello';
+	console.log(a[mySymbol]);
+
+
+	//第二种写法
+	var a = {
+		[mySymbol]:'Hello1'
+	};
+
+	//第三种写法
+	var a = {};
+	Object.defineProperty(a,mySymbol,{value:'Hello2'});
+	console.log(a);
+
+	
+	
+</script>

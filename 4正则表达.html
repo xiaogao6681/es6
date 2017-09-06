@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>RegExp</title>
+</head>
+<body>
+	
+</body>
+</html>
+<script type="text/javascript">
+	"use strict";
+	var regexp = new RegExp('xyz','i');
+	//等价于 var regex = /xyz/i;
+
+	//字符串的正则方法
+	/*String.prototype.match //调用 RegExp.prototype[Symbol.match]
+	String.prototype.replace
+	String.prototype.split
+	String.prototype.search
+	//在语言内部全部调用RegExp的实例方法，从而做到所有与正则相关的方法，全都定义在RegExp的对象
+	*/
+	//Math对象的扩展
+	//Math.trunc(小数) 用于去除一个数的小数部分，返回整数部分
+
+	//Math.sign() 用来判断一个数到底是正数，负数还是0.对于非数值，会先将其转换为数值。
+	console.log(Math.sign(2));
+	console.log(Math.sign(-2));
+	console.log(Math.sign(2.6));
+</script>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	
+</body>
+</html>
+在网页中插入一个模块main.js，由于type属性设为module，故浏览器知道这是个ES6模块。
+浏览器对于带有type="module"的《》Script,都是异步加载，不会造成堵塞浏览器等。
+<script type="module" src="main.js"></script>
+<script type="text/javascript">
+	"use strict";
+	//ES6和CommonJs之间的差异
+	/*
+	CommonJs输出的是一个值的拷贝，ES6模块输出的是值的引用。
+	CommonJS模块是运行时加载，而ES6模块是编译时输出接口。
+	*/
+</script>

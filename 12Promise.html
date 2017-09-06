@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Promise</title>
+</head>
+<body>
+	
+</body>
+</html>
+<script type="text/javascript">
+	"use strict";
+	/*promise是一个容器，里面保存着未来才会结束的事件（通常是一个异步操作）
+	从语法上面来说，Promise是一个对象，从它可以获取异步操作的消息，各种异步操作都可以用同样的方法进行处理。
+
+	特点：1 对象的状态不受外界影响。 pending（进行中） Fulfilled（已成功） Rejected(已失败)。只有异步操作的结果，可以决定
+	当前是哪一种状态，任何其他操作都无法改变这个状态。
+
+		2 一旦状态改变，就不会再变，如果改变已经发生了，再对promise对象添加回调函数，也会立即得到结果。
+
+		有了promise对象，就可以将异步操作以同步操作的流程表达处理，避免了层层嵌套的回调函数。此外，promise对象提供统一的接口，使得
+		异步操作更加容易。
+		promise对象是无法取消的，一旦新建就会立即执行。
+	*/
+
+	/*var promise = new Promise(function(resolve,reject){
+		构造函数接受一个函数作为参数，该函数的两个参数分别是两个函数resolve和reject 不用自己部署
+		resolve：将promise对象的状态由未完成变为成功。在异步操作成功时调用，并将异步操作的结果，作为参数传递出去。
+		reject：将promise对象的状态由未完成变为失败。在异步操作失败时调用，并将异步操作报出的错误，作为参数传递出去。
+		//...some code
+		if() {
+			resolve(value);
+		}else{
+			reject(error);
+		}
+	});*/
+	//promise实例生成后，可以用then方法分别指定Resolved和rejected状态的回调函数
+	/*
+	then方法接受两个回调函数作为参数，第一个回调函数是状态为resolved时调用，第二个回调函数是promise对象的状态
+	变为Rejected时调用。第二个函数是可选的，不一定要提供。这两个函数都接收promise对象传出的值作为参数。
+	*/
+	/*promise.then(function(value){
+		//success
+	},function(error){
+		failure
+	});*/
+
+	//Promise对象实例
+	function timeout(ms){
+		return new Promise((resolve,reject)=>{
+			setTimeout(resolve,ms,'done');
+		});
+	}
+	timeout(100).then((value)=>{
+		console.log(value);
+	});
+
+	//查看then调用的时机
+	let promise = new Promise(function(resolve,reject){
+		console.log('promise');
+		resolve();
+	});
+	promise.then(function(){ //then方法制定的回调函数，将在脚本所有同步任务执行完之后才会执行
+		console.log('Resolved');
+	}/*,function(){该函数是可选的，这两个函数都接受promise对象传出的值作为参数}*/).catch(function(err){
+		console.log(err);
+	})
+	console.log('Hi');
+
+	//异步加载图片的例子
+	function loadImageAsync(url){
+		return new Promise(function(resolve,reject){
+			var image = new Image(); //创建一个新图片
+
+			image.onload= function(){ //如果图片加载成功，就调用了resolve方法，否则使用reject方法。
+				resolve(image);
+			};
+			image.onerror = function(){
+				reject(new Error('Could not load image at' +url));
+			};
+			image.src=url;
+		})
+	}
+
+	//promise实现Ajax操作的例子
+	var getJSON = function(url){
+		var promise = new Promise(function(resolve,reject){
+			var client = new XMLHttpRequest();
+			client.open('GET',url);
+			client.onreadystatechagne = handler;
+			client.responseType = 'json';
+			client.setRequestHeader("Accept","application/json");//设置请求头部
+			client.send();
+			function handler(){
+				if(this.readyState==4&& this.status==200){
+					resolve(this.response);
+				}else{
+					reject(new Error(this.statusText));
+				}
+			};
+		});
+		return promise;
+	};
+	/*getJSON('/posts.json').then(function(json){
+		console.log('Contents' + json);
+	},function(error){
+		console.error('出错了',error);
+	});*/
+
+	//调用resolve或reject并不会终结Promise的参数函数的执行.
+	new Promise((resolve,reject)=>{
+		resolve(1);
+		console.log(2);
+	}).then(r=>{console.log(r)});
+
+
+	var someSyncThing = function(){
+		return new Promise(function(resolve,reject){
+			//下面一行会报错，因为x没有声明
+			//resolve(x + 5)
+			resolve("you're sb");
+		});
+	};
+	someSyncThing().catch(function(error){
+		console.log('oh no',error);
+	}).then(function(){
+		console.log("ok");
+	});
+
+
+	//Promise.all() 用于将多个Promise实例，包装成一个新的promise实例。
+	//var p = Promise.all([p1,p2,p3]); 其中p1-p3是3个promise实例。 只有3个状态都变成Fulfilled，p的状态才会变成fulfiled，
+
+
+	//promise.resolve() 有时需要将现有对象转换为Promise对象， Promise.resolve方法就起到这个作用
+
+	//promise.done() 总是处于回调链的尾端，保证抛出任何可能出现的错误。
+	//promise.finally() 接受一个普通的回调函数作为参数，不管怎样都必须执行。
+</script>

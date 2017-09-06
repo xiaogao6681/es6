@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Proxy</title>
+</head>
+<body>
+	
+</body>
+</html>
+<script type="text/javascript">
+	"use strict";
+	/*提供构造函数生成实例，target表示所要拦截的目标对象，handler参数
+	用来定制拦截行为。*/
+	//var Proxy = new Proxy(target,handler);
+
+	//拦截读取属性行为的例子
+	/*var target = {};
+	var handler = {};
+	var proxy = new Proxy(target, handler);
+	proxy.a = 'b';
+	console.log(target.a); // "b"*/
+
+	let obj = new Proxy({},{
+		get:function(target,property){
+			return 35;
+		}
+	})
+	console.log(obj.time);
+
+</script>

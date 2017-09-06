@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>字符串的扩展</title>
+</head>
+<body>
+	<div id="demo"></div>
+	<div id="result">demo</div>
+	<div id="list"></div>
+</body>
+</html>
+<script type="text/javascript" src="jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="at.js"></script>
+<script type="text/javascript">
+	"use strict";
+/*	var s = "𠮷";
+	console.log(s.length);
+	console.log(s.charAt(0));
+	console.log(s.charAt(1));
+	console.log(s.charCodeAt(0));
+	console.log(s.charCodeAt(1));*/
+
+	var s = "𠮷a"; //对于4字节的字符，codePointAt能够按照双字节来读取。
+	console.log(s.codePointAt(0));
+	console.log(s.codePointAt(1));
+	console.log(s.codePointAt(2));
+
+	console.log(String.fromCharCode(0x20BB7));//ஷ
+	console.log(String.fromCodePoint(0x20BB7));//𠮷
+
+	/*字符串的遍历器接口*/
+	for(let codePoint of 'foo'){
+		console.log(codePoint);
+	}
+
+	//at() 能够识别码点大于0xFFFF的字符，返回正确的字符。 必须要包含at.js
+	console.log('abc'.charAt(0));
+	console.log('𠮷'.charAt(0));
+	console.log('𠮷'.at(0));
+
+	/*如何确定一个字符串是否包含在另外一个字符串中*/
+	//includes():返回布尔值，表示是否找到了参数字符串。
+	var str = 'Hello world';
+	console.log(str.includes('o',5));
+	//startsWith():返回布尔值，表示参数字符串是否在原字符串的头部。
+	console.log(str.startsWith('He',0));
+	//endsWith():返回布尔值，表示参数字符串是否在字符串的尾部
+	console.log(str.endsWith('d',11));
+	//这3个方法都支持第二个参数，表示开始搜索的位置。
+
+
+	/*-----------repeat 返回一个新的字符串，表示将原来字符串重复n次----*/
+	console.log('x'.repeat(4));
+	//参数如果是小数，会被取整
+	console.log('na'.repeat(2.9));
+
+
+	/*--padStart, padEnd--*/
+	//padStart用于头部补全，padEnd用于尾部补全
+
+	/*console.log('x'.padStart(5,'ab')); //第一个参数用来指定字符串的最小长度，第二个参数是用来补全的字符串
+	console.log('x'.padEnd(4,'ab'));//第一个参数包括了原来字符串的长度
+
+	console.log('xxx'.padStart(2,'oo'));//如果原字符串的长度，等于或大于指定的最小长度，则返回原字符串。*/
+	let basket={
+		count:30,
+		onSale:20
+	}
+
+	/*模板字符串*/
+	$(function(){//反引号可以当作普通的字符串使用，也可以用来定义多行字符串，或在字符串中嵌入
+		$("#demo").append(
+			'There are <b>' + basket.count + '</b> ' +
+			'items in your basket, '+
+			'<em>' + basket.onSale + 
+			'</em> are on sale');
+
+
+		$('#result').append(`
+			There are <b>${basket.count}</b> items
+			in your basket,<em>${basket.onSale}</em>
+			are on onSale!
+		`);
+		//如果使用模板字符串表示多行字符串，所有的空格和缩进都会被保留在输出之中。
+		$('#list').html(`
+			<ul>
+			  <li>first</li>
+			  <li>second</li>
+			</ul>
+		`);
+
+		//模板字符串中嵌入变量，需要将变量名写在${}之中。
+		function authorize(user,action){
+			if(!user.hasPrivilege(action)){
+				throw new Error(
+					`User ${user.name} is not authorized to do ${action}.`
+				)
+			}
+		}
+		//大括号内部可以放入任意的JavaScript表达式，可以进行运算，以及引用对象属性。
+		/*var x = 1,y=2;
+		console.log(`${x} + ${y * 2} = ${x + y * 2}`);
+		//模板字符串中调用函数
+		function fn(){
+			return 'hello world';
+		}
+		console.log(`foo ${fn()} bar`);*/
+	})
+
+	//string.raw() ES6 还为原生的String对象，提供了一个raw()方法。
+	console.log(String.raw`Hi\n${2+3}!`); //Hi\n5! \n在此时被转义了。如果原字符串的斜杠已经转义，那么String.raw不会做任何处理。
+</script>

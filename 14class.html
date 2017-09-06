@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>class的基本语法</title>
+</head>
+<body>
+</body>
+</html>
+<script type="text/javascript">
+	"use strict";
+	/*function point(x,y){
+		this.x = x;
+		this.y = y;
+	}
+	point.prototype.toString = function(){
+		return `(${this.x},${this.y})`;
+	};
+	var p =new point(1,2);
+	console.log(p.toString());*/
+
+	//通过class关键字，可以定义类。
+	class point{
+		constructor(x,y){
+			this.x = x;
+			this.y = y;
+		}//定义构造函数
+		toString(){
+			return `(${this.x},${this.y})`;
+		}
+	}
+	let p = new point(1,2);
+	p.toString();//在类的实例上面调用方法，也就是调用原型链上面的方法。
+	console.log(p.__proto__.hasOwnProperty('toString'));
+	//console.log(point === point.prototype.constructor);
+
+	//由于类的方法都定义在prototype对象上面，所以类的新方法可以添加在prototype对象上面，Object.assign方法可以很方便地一次向类添加多个方法。
+	class demo{
+		constructor(){}
+		//...
+	}
+	Object.assign(demo.prototype,{
+		toString(){},
+		toValue(){}
+	});
+</script>

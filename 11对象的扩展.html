@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>object</title>
+</head>
+<body>
+	
+</body>
+</html>
+<script type="text/javascript">
+	"use strict";
+	//object.is()部署新算法的方法。用来比较两个值是否严格相等。
+	console.log(Object.is('foo','foo'));
+
+	//Object.assign() 用于对象的合并，将源对象复制到目标对象。
+	var target = {a:1}
+	var source = {b:2},source2 = {c:3};
+	Object.assign(target,source,source2);
+	console.log(target); //第一个参数是目标对象，后面的参数都是源对象。
+	//若目标对象与源对象有同名的属性，后面的属性会覆盖前面的属性。如果该参数不是对象，则会先转为对象。
+
+	//__proto__属性 前后各两个下划线，用来读取或者设置当前对象的prototype对象
+	var obj = {
+		method:function demo(){
+			console.log('1');
+		}
+	};
+	obj.__proto__ = someOtherObj;
+	function someOtherObj() {
+		console.log('ok');
+	}
+	console.log(obj.__proto__);
+	//obj.keys() 返回一个数组，成员是参数对象自身的所有可遍历属性的键名。
+	//obj.values() 返回对象的键值，若方法的参数是一个字符串，会返回各个字符组成的一个数组 obj.entries() 返回对象的一对值。
+	</script>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>数组的扩展</title>
+</head>
+<body>
+	
+</body>
+</html>
+<script type="text/javascript">
+	/*----------扩展运算符------------*/
+	//...三个点是扩展运算符。将一个数组转为用逗号分割号的参数序列,如果扩展符后面是一个空数组，则不产生任何效果。
+	console.log(...[1,2,3]);
+	//该运算符主要是用于函数调用
+	function push(array,...items){
+		 array.push(items);
+		 return array;
+	}
+	function add(x,y){
+		return x + y;
+	}
+	var numbers = [4,38];
+	console.log(add(...numbers));
+	console.log(push([1,2,3],...[4,5]));
+	//扩展运算符可以展开数组，故不再需要apply方法，将数组转换为函数的参数了。
+	console.log(Math.max.apply(null,[15,36,7]));
+	console.log(Math.max(...[42,56,75]));
+
+
+
+	//push函数，将一个数组添加到另外一个数组的尾部。
+	var arr1 = [0,1,2];
+	var arr2 = [3,4,5];
+	/*Array.prototype.push.apply(arr1,arr2)
+	console.log(arr1);*/
+	arr1.push(...arr2);
+	console.log(arr1);
+	//如果将扩展运算符用于数组赋值，只能放在参数的最后一位，否则会报错
+	const [first,...rest] = [1,2,3,4,5];
+	console.log(first); //1
+	console.log(rest);//2345
+
+
+
+	//实现了Iterator接口的对象，任何Iterator都可以用运算符转为真正的数组。
+	let map = new Map([[1,"one"],[2,"two"],[3,"three"],
+	]);
+
+	let arr = [...map.values()];
+	console.log(arr);
+
+	//Array.from() 用于将两类对象转为真正的数组：类似数组的对象和可遍历的对象
+
+	let arraylike = {
+		'0':'a',
+		'1':'b',
+		'2':'c',
+		length:3
+	};
+	var arr1 = Array.prototype/*[]*/.slice.call(arraylike);
+	console.log(arr1);
+	var arr2 = Array.from(arraylike);
+	//实际应用中，常见的类似数组的对象都是DOM操作返回的NodeList集合，以及函数内部的arguments对象。array.from都可以将其转为真正的数组。
+
+	console.log(Array.from('hello'));
+	let namesSet = new Set(['a','b']);
+	console.log(Array.from(namesSet));
+	/*Array.from()还可以接收第二个参数，作用类似数组的map方法，用来对每个元素进行处理，将处理后的值放入返回的数组。*/
+	var arrs=Array.from([1,2,3],(x)=>x * x);
+	console.log(arrs);
+
+	var arrs1=Array.from([1,,2,,3],(n)=>n||0);
+	console.log(arrs1);
+
+	console.log(Array.from({length:2},()=>'jack'));//[jack,jack]
+
+
+	//Array.of() 用于将一组值，转换为数组.总是返回参数值组成的数组。如果没有参数，就返回一个空数组。
+	console.log(Array.of(3,1,2));
+	console.log(Array.of(3).length);
+
+
+
+
+	//数组实例的find()和findIndex() find的参数是一个回调函数，所有数组成员依次执行该回调函数，直到找出一个
+	//返回值为true的成员，然后返回该成员。
+	console.log([1,4,-5,10].find((n)=>n < 0 ));
+
+	console.log([1,5,10,15].find(function(value,index,arr){ //value ，当前的值 index当前的位置， arr 原数组
+		return value>4;
+	}));
+
+
+
+	//findIndex方法的用法与find非常相似，返回第一个符合条件的数组成员的位置，如果所有成员都不符合条件，则返回-1.
+	console.log([1,5,10,15].findIndex(function(value,index,arr){
+		return value>12;
+	}))
+
+
+	//fill方法 使用给定值，填充一个数组。 fill(7,1,2) 表示从1号位开始，向原数组填充7，到2号位之前结束。
+	console.log(['a','b','c'].fill(7));
+	console.log(new Array(3).fill(7));
+	console.log(['a','b','c'].fill(7,1,2));
+
+
+
+	//数组实例的entries(),keys()和values() 用于遍历数组，都返回一个遍历器对象，可以用for ...of循环进行遍历
+	//keys()对键名的遍历， values()对键值的遍历 entries()对键值对的遍历。
+
+	for(let index of ['a','b'].keys()){
+		console.log(index)
+	}
+	for (let elem of ['a', 'b']) { //不需要加values就可以
+  		console.log(elem);
+	}
+
+/*	for (let [index, elem] of ['a', 'b'].entries()) {
+	  console.log(index, elem);
+	}*/
+
+	//数组实例的includes()返回一个布尔值，表示某个数组是否包含给定的值
+	[1,2,3].includes(2);//true
+</script>
